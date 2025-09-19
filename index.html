@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kama's Likes & Loves Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Tokyo Pop -->
+    <!-- Application Structure Plan: The SPA is structured using a top navigation bar with four distinct, clickable sections: Learn, Practice, Create, and Challenge. This tab-based structure was chosen to break down the learning process into logical, manageable parts (instruction, controlled practice, free creation, and testing), which is more engaging for a teen user than a long, linear page. It gives the user (Kama) control over her learning path, allowing her to jump between activities. The "Learn" section combines the introductory chat and grammar rules for a cohesive start. "Practice" provides an interactive quiz with immediate feedback. "Create" groups all output-based tasks, and "Challenge" isolates the FLEX prep for focused practice. This user-centric, non-linear design is ideal for making grammar feel less like a chore and more like an interactive game. -->
+    <!-- Visualization & Content Choices: 
+        - Warm-up Chat: Report Info -> Text conversation example. Goal -> Engage/Inform. Presentation -> HTML/CSS styled as a messaging app. Interaction -> Highlighting the error/correction. Justification -> Relatable and visually more appealing for a teen than plain text. Method -> Styled divs.
+        - Grammar Box: Report Info -> Grammar rules. Goal -> Inform. Presentation -> Styled card with emojis. Interaction -> None. Justification -> Clear, concise, and visually separate from other content for easy reference. Method -> Styled div.
+        - Fill-in-the-blanks: Report Info -> Controlled practice questions. Goal -> Compare (user vs. correct answer). Presentation -> Interactive form with input fields and a check button. Interaction -> User input is validated via JS; input fields change color (green/red) for instant feedback. Justification -> Active learning with immediate reinforcement is far more effective than static questions. Method -> HTML form, JS for validation.
+        - Creative/Speaking/FLEX Prompts: Report Info -> Open-ended tasks. Goal -> Organize/Inform. Presentation -> Grouped into logical sections ('Create', 'Challenge') and displayed in styled cards with icons. Interaction -> A textarea is provided for the writing task. Justification -> Separates different types of tasks, making the app feel organized and purposeful. The prompts are presented clearly for offline or creative work. Method -> Styled divs, textarea element.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            background-color: #F472B6; /* Pink-500 */
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(244, 114, 182, 0.4);
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .chat-bubble {
+            max-width: 75%;
+            padding: 10px 15px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .chat-bubble.friend1 {
+            background-color: #E5E7EB; /* Gray-200 */
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        .chat-bubble.friend2 {
+            background-color: #A5B4FC; /* Indigo-300 */
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        .practice-input.correct {
+            border-color: #10B981; /* Green-500 */
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+        }
+        .practice-input.incorrect {
+            border-color: #EF4444; /* Red-500 */
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-[#FFF8F9] min-h-screen text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#C084FC]">Kama's Likes & Loves Hub 💖</h1>
+            <p class="text-gray-500 mt-2">Your fun space to master grammar! ✨</p>
+        </header>
+
+        <nav class="flex justify-center bg-white/70 backdrop-blur-sm rounded-xl shadow-md p-2 mb-8 sticky top-4 z-10">
+            <button onclick="showSection('learn')" class="nav-button active flex-1 md:flex-none text-center font-semibold py-2 px-4 rounded-lg">📚 Learn</button>
+            <button onclick="showSection('practice')" class="nav-button flex-1 md:flex-none text-center font-semibold py-2 px-4 rounded-lg">✅ Practice</button>
+            <button onclick="showSection('create')" class="nav-button flex-1 md:flex-none text-center font-semibold py-2 px-4 rounded-lg">✍️ Create</button>
+            <button onclick="showSection('challenge')" class="nav-button flex-1 md:flex-none text-center font-semibold py-2 px-4 rounded-lg">💥 Challenge</button>
+        </nav>
+
+        <main>
+            <!-- Learn Section -->
+            <section id="learn" class="content-section active">
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <h2 class="text-2xl font-bold text-pink-500 mb-4">😴 Warm-Up: A Texting Chat</h2>
+                    <p class="text-gray-600 mb-6">Read this chat between two friends. Can you spot the mistake?</p>
+                    <div class="bg-gray-50 p-4 rounded-lg flex flex-col">
+                        <div class="chat-bubble friend1">Hey! What are you doing today?</div>
+                        <div class="chat-bubble friend2">Oh, not much. My friend and I are going to watch a new K-drama.</div>
+                        <div class="chat-bubble friend1">Ooh, I love <strong class="bg-red-200 rounded px-1">watch</strong> dramas! They're so good.</div>
+                        <div class="chat-bubble friend2">Me too! But wait... that's a small grammar mistake! 🧐</div>
+                        <div class="chat-bubble friend1">Oh, no! What is it?</div>
+                        <div class="chat-bubble friend2">You say "I love <strong class="bg-green-200 rounded px-1">watching</strong> dramas." You need to add "-ing" to the verb! 🤯</div>
+                         <div class="chat-bubble friend1">Aaaah! Right! Thanks! 🙏</div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-lg mt-8">
+                    <h2 class="text-2xl font-bold text-purple-500 mb-4">📝 Grammar Box: Easy-Peasy!</h2>
+                    <p class="text-gray-600 mb-4">The rule is super simple. When you talk about things you **like** or **love**, you have two options:</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-purple-50 p-4 border-l-4 border-purple-400 rounded-r-lg">
+                            <h3 class="font-bold text-lg mb-2">1. Use a thing (a noun)</h3>
+                            <ul class="list-none space-y-2">
+                                <li>I **love** Justin Bieber. 🎤</li>
+                                <li>I **like** volleyball. 🏐</li>
+                                <li>I **love** Tokyo! 🗼</li>
+                            </ul>
+                        </div>
+                        <div class="bg-pink-50 p-4 border-l-4 border-pink-400 rounded-r-lg">
+                            <h3 class="font-bold text-lg mb-2">2. Use a verb with "-ing"</h3>
+                            <ul class="list-none space-y-2">
+                                <li>I **love** **watching** K-dramas. 📺</li>
+                                <li>I **like** **playing** volleyball. 💪</li>
+                                <li>I **love** **sleeping** late! 😴</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Practice Section -->
+            <section id="practice" class="content-section">
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <h2 class="text-2xl font-bold text-indigo-500 mb-6">✅ Let's Practice!</h2>
+                    <p class="text-gray-600 mb-6">Fill in the blanks with the correct form of the word in parentheses. Click "Check Answers" when you're done!</p>
+                    <div id="practice-form" class="space-y-4">
+                        <div class="practice-item">
+                            <label class="block text-gray-700">1. I love <input type="text" data-answer="watching" class="practice-input mt-1 p-2 border rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"> dramas. (watch)</label>
+                        </div>
+                        <div class="practice-item">
+                            <label class="block text-gray-700">2. She likes <input type="text" data-answer="playing" class="practice-input mt-1 p-2 border rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"> volleyball. (play)</label>
+                        </div>
+                        <div class="practice-item">
+                            <label class="block text-gray-700">3. We love <input type="text" data-answer="listening to" class="practice-input mt-1 p-2 border rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"> music. (listen to)</label>
+                        </div>
+                        <div class="practice-item">
+                            <label class="block text-gray-700">4. He likes <input type="text" data-answer="playing" class="practice-input mt-1 p-2 border rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"> video games. (play)</label>
+                        </div>
+                        <div class="practice-item">
+                            <label class="block text-gray-700">5. I love <input type="text" data-answer="scrolling" class="practice-input mt-1 p-2 border rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"> on TikTok. (scroll)</label>
+                        </div>
+                        <div class="practice-item">
+                            <label class="block text-gray-700">6. My friends like <input type="text" data-answer="telling" class="practice-input mt-1 p-2 border rounded-md w-40 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"> jokes. (tell)</label>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <button onclick="checkAnswers()" class="bg-indigo-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-indigo-600 transition shadow-md">Check Answers</button>
+                        <p id="feedback-message" class="mt-4 text-center font-semibold"></p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Create Section -->
+            <section id="create" class="content-section">
+                 <div class="bg-white p-6 rounded-2xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-bold text-pink-500 mb-4">✍️ My Likes & Loves List</h2>
+                    <p class="text-gray-600 mb-4">Time to write! Write 5 sentences about things you like and love. Mix verbs (-ing) and things (nouns).</p>
+                    <textarea class="w-full h-40 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="e.g., I love listening to Justin Bieber's songs. I like comedy movies..."></textarea>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg">
+                        <h2 class="text-2xl font-bold text-purple-500 mb-4">🗣️ Speaking Practice: Talk Show!</h2>
+                        <p class="text-gray-600 mb-4">Imagine you're on a talk show! Ask a partner these questions. Remember to give a reason!</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                           <li>Do you like watching dramas?</li>
+                           <li>Do you like listening to Justin Bieber?</li>
+                           <li>What do you like doing in your free time?</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-lg">
+                        <h2 class="text-2xl font-bold text-indigo-500 mb-4">🤩 TikTok Challenge!</h2>
+                        <p class="text-gray-600">Make a 20-second video called "Top 3 Things I Love." Use sentences with "I love" and "I like." Get creative with filters and sound! 🎬</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Challenge Section -->
+            <section id="challenge" class="content-section">
+                <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-yellow-400">
+                    <h2 class="text-2xl font-bold text-yellow-500 mb-4">💥 FLEX Prep: Answer with Reasons</h2>
+                    <p class="text-gray-600 mb-6">Answer these questions in complete sentences. Think about your reasons and explain them clearly!</p>
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="font-semibold text-gray-800">1. Do you like to go to the movies? Why or why not?</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="font-semibold text-gray-800">2. What do you like to do on a Saturday morning? Why?</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="font-semibold text-gray-800">3. Who is your favorite actor or singer and why do you like them?</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <script>
+        const sections = document.querySelectorAll('.content-section');
+        const navButtons = document.querySelectorAll('.nav-button');
+
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            navButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelector(`button[onclick="showSection('${sectionId}')"]`).classList.add('active');
+        }
+        
+        function checkAnswers() {
+            const inputs = document.querySelectorAll('.practice-input');
+            let allCorrect = true;
+            inputs.forEach(input => {
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswer = input.dataset.answer.toLowerCase();
+                input.classList.remove('correct', 'incorrect');
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                } else {
+                    input.classList.add('incorrect');
+                    allCorrect = false;
+                }
+            });
+
+            const feedback = document.getElementById('feedback-message');
+            if (allCorrect) {
+                feedback.textContent = 'Awesome job! All correct! 🎉';
+                feedback.style.color = '#10B981';
+            } else {
+                feedback.textContent = 'Not quite! Try fixing the ones in red. You can do it! 💪';
+                feedback.style.color = '#EF4444';
+            }
+        }
+
+        window.onload = () => {
+            showSection('learn');
+        };
+    </script>
+</body>
+</html>
